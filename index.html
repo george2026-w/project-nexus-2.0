@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROJECT NEXUS 2.0</title>
+<style>
+:root{--bg:#070914;--panel:#11172a;--panel2:#171f38;--cyan:#52e7ff;--pink:#ff4fd8;--text:#edf4ff;--muted:#9ba9c7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17224a 0,#070914 55%);color:var(--text);font:15px/1.5 system-ui,Arial,sans-serif}
+header{padding:34px 5vw 22px;border-bottom:1px solid #293452;background:#080d1dcc}
+.logo{font-size:clamp(28px,5vw,48px);font-weight:900;letter-spacing:3px;text-shadow:0 0 18px #52e7ff66}.logo span{color:var(--cyan)}
+header p{color:var(--muted);margin:4px 0 18px}.nav{display:flex;gap:10px;flex-wrap:wrap}.nav a,.chip{color:var(--text);text-decoration:none;background:#141d35;border:1px solid #2b3b62;padding:8px 13px;border-radius:20px}
+main{max-width:1300px;margin:auto;padding:24px 5vw 60px}.hero{padding:22px;border:1px solid #2a3b61;border-radius:18px;background:linear-gradient(120deg,#13203d,#211438);margin-bottom:22px}.hero h1{margin:0 0 8px;font-size:clamp(22px,3vw,32px)}.hero p{margin:0;color:#c0cce5}
+.controls{display:grid;grid-template-columns:1fr auto;gap:12px;margin:20px 0}.controls input{min-width:0;background:#0d1427;color:white;border:1px solid #34466f;border-radius:12px;padding:13px;font:inherit}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 20px}.chip{cursor:pointer;font:inherit}.chip.active,.chip:hover{border-color:var(--cyan);background:#123044}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:28px 0 12px}.section-head h2{margin:0;font-size:22px}.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px}.game{display:flex;flex-direction:column;min-height:155px;padding:15px;border-radius:15px;border:1px solid #273657;background:linear-gradient(145deg,#141d34,#0d1325);transition:.18s}.game:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 8px 26px #0008}.game .emoji{font-size:25px}.game h3{margin:8px 0 4px;font-size:17px}.game p{color:var(--muted);font-size:13px;margin:0 0 12px;flex:1}.game a{color:var(--cyan);font-weight:700;text-decoration:none}.game a:hover{text-decoration:underline}.tag{font-size:11px;color:#ffb5ef;margin-top:7px}
+.portal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}.portal{padding:14px;background:#10182b;border:1px solid #29395c;border-radius:12px;color:var(--text);text-decoration:none}.portal:hover{border-color:var(--pink)}
+footer{border-top:1px solid #253251;padding:25px 5vw;color:var(--muted);text-align:center;font-size:13px}
+@media(max-width:650px){.controls{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game{padding:12px}.game h3{font-size:15px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">PROJECT <span>NEXUS</span> 2.0</div>
+ <p>Find your next game. One portal. Loads of worlds.</p>
+ <nav class="nav"><a href="#games">GAMES</a><a href="#kirb">KIRB CENTRAL PICKS</a><a href="#portals">GAME PORTALS</a><a href="#about">ABOUT</a></nav>
+</header>
+<main>
+ <section class="hero">
+  <h1>Enter the Nexus.</h1>
+  <p>A searchable game directory inspired by the game links on Kirb Central. Choose a game to open its own website. New picks can be added as the library grows.</p>
+ </section>
+ <div class="controls"><input id="search" type="search" placeholder="Search games, genres or keywords..." aria-label="Search games"><span class="chip" id="count">Loading games…</span></div>
+ <div class="filters" id="filters"></div>
+ <section id="games">
+  <div class="section-head"><h2>Game library</h2><span class="muted">Individual game links</span></div>
+  <div class="grid" id="gameGrid"></div>
+ </section>
+ <section id="kirb">
+  <div class="section-head"><h2>Kirb Central picks</h2><span class="muted">Games and playful sites from its Game Links page</span></div>
+  <div class="grid" id="kirbGrid"></div>
+ </section>
+ <section id="portals">
+  <div class="section-head"><h2>Explore more game portals</h2><span class="muted">These sites contain many more games</span></div>
+  <div class="portal-grid" id="portalGrid"></div>
+ </section>
+ <section id="about" class="hero" style="margin-top:30px">
+  <h2>About this directory</h2>
+  <p>PROJECT NEXUS links to games hosted by other websites; it does not copy or host their games. Some sites may show ads, ask for an account, or work better on a computer. Check a site's rules and ask a parent or trusted adult if you're unsure. This directory does not bypass school or network restrictions.</p>
+  <p style="margin-top:10px">The library starts with a smaller set of named, direct links rather than filling the page with made-up games. It can grow toward 1,000 as more real game pages are added and checked.</p>
+ </section>
+</main>
+<footer>PROJECT NEXUS 2.0 · Fan-made game directory · Not affiliated with Kirb Central or the linked game sites.</footer>
+<script>
+const games = [
+["Free Rider HD","🏁","Racing","Draw and ride custom bike tracks.","https://www.freeriderhd.com/"],
+["Watermelon Game","🍉","Puzzle","Merge fruit to make a giant watermelon.","https://suikagame.com/"],
+["Chess","♟️","Strategy","Play chess online and practise your strategy.","https://www.chess.com/"],
+["Slow Roads","🚗","Racing","Relaxed endless scenic driving.","https://slowroads.io/"],
+["Stratego","🛡️","Strategy","A tactical board game of hidden ranks.","https://play.stratego.com/"],
+["Cookie Clicker","🍪","Idle","Build a huge cookie empire.","https://orteil.dashnet.org/cookieclicker/"],
+["Sand Tetris","🏖️","Puzzle","A falling-block puzzle with flowing sand.","https://sandtris.com/"],
+["What Beats Rock","🪨","Funny","A creative rock-paper-scissors-style word game.","https://www.whatbeatsrock.com/"],
+["Bored Button","🎲","Funny","Discover a random little activity or game.","https://www.boredbutton.com/"],
+["OpenGuessr","🌍","Adventure","Explore locations and guess where you are.","https://openguessr.com/"],
+["2048","🔢","Puzzle","Combine matching tiles to reach 2048.","https://play2048.co/"],
+["Google Snake","🐍","Arcade","Classic snake, collect items and grow.","https://www.google.com/fbx?fbx=snake_arcade"],
+["Chrome Dino","🦖","Arcade","Jump over obstacles in the dinosaur runner.","https://chromedino.com/"],
+["Tetris","🧩","Puzzle","Fit falling blocks together.","https://tetris.com/play-tetris"],
+["Agar.io","🟢","Multiplayer","Grow your cell in a multiplayer arena.","https://agar.io/"],
+["Slither.io","🐍","Multiplayer","Guide your snake around a shared arena.","https://slither.io/"],
+["Little Alchemy 2","⚗️","Puzzle","Combine elements to discover new things.","https://littlealchemy2.com/"],
+["Minesweeper Online","💣","Puzzle","Use logic to clear the grid.","https://minesweeper.online/"],
+["Sudoku","🔢","Puzzle","Solve number-placement puzzles.","https://sudoku.com/"],
+["Jigsaw Planet","🧩","Puzzle","Solve picture jigsaw puzzles.","https://www.jigsawplanet.com/"],
+["Lichess","♟️","Strategy","Free chess games and puzzles.","https://lichess.org/"],
+["Skribbl.io","✏️","Multiplayer","Draw and guess words with other players.","https://skribbl.io/"],
+["Gartic Phone","☎️","Multiplayer","A funny drawing and guessing party game.","https://garticphone.com/"],
+["Seterra","🗺️","Learning","Practise geography with map quizzes.","https://www.seterra.com/"],
+["Neal.fun","✨","Funny","Explore playful interactive web experiments.","https://neal.fun/"],
+["Human or Not?","🤖","Funny","Try to guess whether a chat partner is human or AI.","https://app.humanornot.ai/"],
+["CB Games","🎮","Arcade","A collection of browser games.","https://cbgamesdev.github.io/"],
+["Watch Documentaries Games","📺","Arcade","Visit the games section of the site.","https://watchdocumentaries.com/"],
+["YouTube Playables","▶️","Arcade","Find lightweight games on YouTube.","https://www.youtube.com/playables"]
+];
+const portals = [
+["Poki","https://poki.com/"],["CrazyGames","https://www.crazygames.com/"],["itch.io","https://itch.io/games"],["Scratch","https://scratch.mit.edu/explore/projects/games/"],["Y8","https://www.y8.com/"],["Kizi","https://kizi.com/"],["GamePix","https://www.gamepix.com/"],["GameFlare","https://www.gameflare.com/"],["1001 Games","https://www.1001games.com/"],["Kongregate","https://www.kongregate.com/"],["Newgrounds","https://www.newgrounds.com/games"],["Coolmath Games","https://www.coolmathgames.com/"],["Miniplay","https://www.miniplay.com/"],["Playhop","https://playhop.com/"]
+];
+const categories=["All","Arcade","Racing","Puzzle","Strategy","Multiplayer","Adventure","Idle","Funny","Learning"];
+const grid=document.getElementById("gameGrid"),kirbGrid=document.getElementById("kirbGrid"),search=document.getElementById("search"),count=document.getElementById("count");
+function card(g){return `<article class="game"><div class="emoji">${g[1]}</div><h3>${g[0]}</h3><p>${g[3]}</p><a href="${g[4]}" target="_blank" rel="noopener noreferrer">Open game ↗</a><div class="tag">${g[2]}</div></article>`}
+function draw(){const q=search.value.trim().toLowerCase(),cat=document.querySelector(".chip.active")?.dataset.cat||"All";const filtered=games.filter(g=>(cat==="All"||g[2]===cat)&&g.slice(0,4).join(" ").toLowerCase().includes(q));grid.innerHTML=filtered.map(card).join("")||"<p>No matches. Try another search or category.</p>";count.textContent=`${filtered.length} of ${games.length} games`;}
+const filters=document.getElementById("filters");categories.forEach((c,i)=>{const b=document.createElement("button");b.className="chip"+(i===0?" active":"");b.textContent=c;b.dataset.cat=c;b.onclick=()=>{document.querySelectorAll("#filters .chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");draw()};filters.appendChild(b)});
+search.addEventListener("input",draw);draw();
+kirbGrid.innerHTML=games.slice(0,10).concat(games.slice(23,28)).map(card).join("");
+document.getElementById("portalGrid").innerHTML=portals.map(p=>`<a class="portal" href="${p[1]}" target="_blank" rel="noopener noreferrer">${p[0]} ↗</a>`).join("");
+</script>
+</body>
+</html>
